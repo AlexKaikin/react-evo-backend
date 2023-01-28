@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import multer from 'multer'
+import fs from 'fs'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -28,24 +29,28 @@ mongoose
   .catch((err) => console.log('DB error', err))
 
 const app = express()
+app.use(cors())
+app.use(express.json()) // чтение json данных
+app.set('json spaces', 2)
 
 const storage = multer.diskStorage({ // создание хранилища изображений
-  destination: (_, __, cb) => { // путь сохранения изображений
+  destination: (_, __, cb) => {
+    if (!fs.existsSync('uploads')) {// путь сохранения изображений
+      fs.mkdirSync('uploads')
+    }
     cb(null, 'uploads')
   },
-  filename: (_, file, cb) => { // имя сохранённого файла
-    cb(null, file.originalname)
+  filename: (_, file, cb) => {
+    cb(null, file.originalname) // имя сохранённого файла
   },
 })
 const upload = multer({ storage }) // соединяем хранилище с multer
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {//@ts-ignore
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+  //@ts-ignore
   res.json({ url: `/uploads/${req.file.originalname}` })
 })
 
 app.use('/uploads', express.static('uploads')) // по запросу на адрес проверить есть ли файл
-app.use(express.json()) // чтение json данных
-app.use(cors())
-app.set('json spaces', 2)
 
 app.listen(process.env.PORT || 4444, (err) => {
   if (err) console.log(err)

@@ -7,6 +7,7 @@ const ProductSchema = new mongoose.Schema(
     text: { type: Array, required: true },
     tags: { type: Array, default: [] }, // если нет тегов сохраним пустой массив
     price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
     currency: { type: String, required: true },
     volume: { type: Number, required: true },
     volumeMeasurement: { type: String, required: true },
