@@ -7,11 +7,11 @@ export const s3Storage = async (file) => {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `/uploads/${file.originalname}`,
     Body: file.buffer,
-    ContentType: file.mimetype,
+    ContentType: 'multipart/form-data',
   }
 
   try {
-    return await s3.upload(param).promise()
+    return await s3.putObject(param).promise()
   } catch (err) {
     console.log(err)
   }
