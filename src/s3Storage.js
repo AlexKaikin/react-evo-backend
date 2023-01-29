@@ -7,7 +7,7 @@ export const s3Storage = async (file) => {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `/uploads/${file.originalname}`,
     Body: file.buffer,
-    ContentType: "image/jpg",
+    ContentType: file.mimetype,
   }
 
   try {
@@ -21,6 +21,7 @@ export const getFileStream = (key) => {
   const param = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: key,
+    ContentType: "image/jpeg",
   }
   return s3
     .getObject(param)
