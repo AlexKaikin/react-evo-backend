@@ -21,7 +21,6 @@ export const getFileStream = (key) => {
   const param = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: key,
-    ContentType: "image/jpeg",
   }
   return s3
     .getObject(param)
