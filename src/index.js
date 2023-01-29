@@ -19,6 +19,7 @@ import {
   ProductController,
   NavigationController,
 } from './controllers/index.js'
+import { getFileStream, s3Storage } from './s3Storage.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -33,21 +34,34 @@ app.use(cors())
 app.use(express.json()) // чтение json данных
 app.set('json spaces', 2)
 
-const storage = multer.diskStorage({ // создание хранилища изображений
-  destination: (_, __, cb) => {
-    if (!fs.existsSync('uploads')) {// путь сохранения изображений
-      fs.mkdirSync('uploads')
-    }
-    cb(null, 'uploads')
-  },
-  filename: (_, file, cb) => {
-    cb(null, file.originalname) // имя сохранённого файла
-  },
+// local storage
+// const storage = multer.diskStorage({ // создание хранилища изображений
+//   destination: (_, __, cb) => {
+//     if (!fs.existsSync('uploads')) {// путь сохранения изображений
+//       fs.mkdirSync('uploads')
+//     }
+//     cb(null, 'uploads')
+//   },
+//   filename: (_, file, cb) => {
+//     cb(null, file.originalname) // имя сохранённого файла
+//   },
+// })
+
+// AWS storage
+const storage = multer.memoryStorage()
+
+app.get('/uploads/:key', (req, res) => {
+  const readStream = getFileStream(req.url)
+  return readStream.pipe(res)
+
 })
+// /AWS storage
+
 const upload = multer({ storage }) // соединяем хранилище с multer
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+app.post('/upload', checkAuth, upload.single('image'), async (req, res) => {
   //@ts-ignore
-  res.json({ url: `/uploads/${req.file.originalname}` })
+  const result = await s3Storage(req.file) // S3 storage
+  return res.json({ url: `/uploads/${req.file.originalname}`, result })
 })
 
 app.use('/uploads', express.static('uploads')) // по запросу на адрес проверить есть ли файл
