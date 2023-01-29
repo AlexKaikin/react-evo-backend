@@ -7,6 +7,7 @@ export const s3Storage = async (file) => {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `/uploads/${file.originalname}`,
     Body: file.buffer,
+    ContentType: "image/jpg",
   }
 
   try {
