@@ -52,6 +52,7 @@ const storage = multer.memoryStorage()
 
 app.get('/uploads/:key', (req, res) => {
   const readStream = getFileStream(req.url)
+  res.append("Content-Type", "image/jpeg")
   return readStream.pipe(res)
 
 })
