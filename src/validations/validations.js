@@ -35,3 +35,11 @@ export const productCreateValidation = [
     .isString(),
   body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ]
+
+export const orderCreateValidation = [
+  body('name', 'Введите имя').isLength({ min: 3 }).isString(),
+  body('surname', 'Введите фамилию').isLength({ min: 3 }).isString(),
+  body('middleName', 'Введите фамилию')
+    .isLength({ min: 3 })
+    .isString(),
+]

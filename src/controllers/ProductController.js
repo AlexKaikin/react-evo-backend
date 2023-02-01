@@ -12,7 +12,21 @@ export const getAll = async (req, res) => {
     let productAll = null
     let productQuery = null
 
-    if (category) {
+    if (q && category) {
+      productAll = await ProductModel.find({
+        title: new RegExp(q, 'i'),
+        category: category,
+      })
+      productQuery = await ProductModel.find({
+        title: new RegExp(q, 'i'),
+        category: category,
+      })
+        .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
+        .limit(_limit)
+        .skip(_limit * (_page - 1))
+        .populate('user')
+        .exec()
+    } else if (category) {
       productAll = await ProductModel.find({ category })
       productQuery = await ProductModel.find({ category })
         .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
@@ -119,7 +133,7 @@ export const update = async (req, res) => {
         user: req.userId,
       }
     )
-    res.json({success: true})
+    res.json({ success: true })
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось обновить товар' })

@@ -11,6 +11,7 @@ import {
   loginValidation,
   postCreateValidation,
   productCreateValidation,
+  orderCreateValidation,
 } from './validations/validations.js'
 import { handleValidationErrors, checkAuth } from './utils/index.js'
 import {
@@ -18,6 +19,7 @@ import {
   PostController,
   ProductController,
   NavigationController,
+  OrderController,
 } from './controllers/index.js'
 import { getFileStream, s3Storage } from './s3Storage.js'
 
@@ -113,4 +115,20 @@ app.patch(
   checkAuth,
   productCreateValidation,
   ProductController.update
+)
+
+app.get('/orders', checkAuth, OrderController.getAll)
+app.get('/orders/:id', checkAuth, OrderController.getOne)
+app.post(
+  '/orders',
+  checkAuth,
+  orderCreateValidation,
+  OrderController.create
+)
+app.delete('/orders/:id', checkAuth, OrderController.remove)
+app.patch(
+  '/orders/:id',
+  checkAuth,
+  orderCreateValidation,
+  OrderController.update
 )

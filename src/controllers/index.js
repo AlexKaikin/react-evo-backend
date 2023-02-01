@@ -2,3 +2,4 @@ export * as UserController from './UserController.js' // берём всё в ф
 export * as PostController from './PostController.js'
 export * as ProductController from './ProductController.js'
 export * as NavigationController from './NavigationController.js'
+export * as OrderController from './OrderController.js'
