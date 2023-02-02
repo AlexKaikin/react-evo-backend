@@ -1,10 +1,13 @@
 import mongoose from 'mongoose'
-import { stringify } from 'querystring'
 
 const UserSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
+    },
+    avatarUrl: {
+        type: String,
+        default: null
     },
     email: {
         type: String,

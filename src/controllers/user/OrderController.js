@@ -1,11 +1,11 @@
-import OrderModel from '../models/Order.js'
+import OrderModel from '../../models/Order.js'
 
 export const getAll = async (req, res) => {
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
   try {
-    const orderAll = await OrderModel.find()
+    const orderAll = await OrderModel.find({ user: req.userId })
       .limit(_limit)
       .skip(_limit * (_page - 1))
       .populate('user')
@@ -13,7 +13,7 @@ export const getAll = async (req, res) => {
 
     res.append('x-total-count', orderAll.length)
     res.append('Access-Control-Expose-Headers', 'X-Total-Count')
-    res.json(productQuery)
+    res.json(orderAll)
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить заказы' })
@@ -23,17 +23,14 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const orderId = parseInt(req.params.id)
-    OrderModel.findOneAndUpdate(
-      { id: orderId },
-      (err, doc) => {
-        if (err) {
-          console.log(err)
-          return res.status(500).json({ message: 'Не удалось получить заказ' })
-        }
-        if (!doc) return res.status(404).json({ message: 'Заказ не найден' })
-        res.json(doc)
+    OrderModel.findOneAndUpdate({ id: orderId }, (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).json({ message: 'Не удалось получить заказ' })
       }
-    )
+      if (!doc) return res.status(404).json({ message: 'Заказ не найден' })
+      res.json(doc)
+    })
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить заказ' })
@@ -53,6 +50,8 @@ export const create = async (req, res) => {
       home: req.body.home,
       index: req.body.index,
       created: new Date().toLocaleString(),
+      cartItems: req.body.cartItems,
+      totalCost: req.body.totalCost,
       user: req.userId,
     })
 
@@ -77,6 +76,7 @@ export const update = async (req, res) => {
         street: req.body.street,
         home: req.body.home,
         index: req.body.index,
+        cartItems: req.body.cartItems,
         updated: new Date().toLocaleString(),
       }
     )

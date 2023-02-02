@@ -1,4 +1,4 @@
-import ProductModel from '../models/Product.js'
+import ProductModel from '../../models/Product.js'
 
 export const getAll = async (req, res) => {
   const q = req.query.q ? req.query.q : null
