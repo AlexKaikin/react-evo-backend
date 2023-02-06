@@ -16,14 +16,10 @@ export const getAll = async (req, res) => {
       productAll = await ProductModel.find({
         title: new RegExp(q, 'i'),
         category: category,
-        published: true,
-        quantity: { $gte: 1 },
       })
       productQuery = await ProductModel.find({
         title: new RegExp(q, 'i'),
         category: category,
-        published: true,
-        quantity: { $gte: 1 },
       })
         .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
         .limit(_limit)
@@ -33,13 +29,9 @@ export const getAll = async (req, res) => {
     } else if (category) {
       productAll = await ProductModel.find({
         category,
-        published: true,
-        quantity: { $gte: 1 },
       })
       productQuery = await ProductModel.find({
         category,
-        published: true,
-        quantity: { $gte: 1 },
       })
         .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
         .limit(_limit)
@@ -49,13 +41,9 @@ export const getAll = async (req, res) => {
     } else if (q) {
       productAll = await ProductModel.find({
         title: new RegExp(q, 'i'),
-        published: true,
-        quantity: { $gte: 1 },
       })
       productQuery = await ProductModel.find({
         title: new RegExp(q, 'i'),
-        published: true,
-        quantity: { $gte: 1 },
       })
         .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
         .limit(_limit)
@@ -63,14 +51,8 @@ export const getAll = async (req, res) => {
         .populate('user')
         .exec()
     } else {
-      productAll = await ProductModel.find({
-        published: true,
-        quantity: { $gte: 1 },
-      })
-      productQuery = await ProductModel.find({
-        published: true,
-        quantity: { $gte: 1 },
-      })
+      productAll = await ProductModel.find({})
+      productQuery = await ProductModel.find({})
         .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
         .limit(_limit)
         .skip(_limit * (_page - 1))

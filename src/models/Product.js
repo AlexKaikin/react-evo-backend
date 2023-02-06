@@ -17,6 +17,7 @@ const ProductSchema = new mongoose.Schema(
     category: { type: String, required: true },
     property: { country: String, town: String, year: Number },
     viewsCount: { type: Number, default: 0 },
+    published: { type: Boolean, default: false },
     created: { type: String },
     updated: {type: String},
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // ссылать на модель user по id (связь между таблицами)

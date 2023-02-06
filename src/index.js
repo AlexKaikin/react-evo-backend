@@ -14,6 +14,7 @@ import orderRouter from './routes/user/orders.js'
 import authRouter from './routes/auth.js'
 import navigationRouter from './routes/navigation.js'
 import orderRouterAdmin from './routes/admin/orders.js'
+import productRouterAdmin from './routes/admin/products.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -71,4 +72,5 @@ app.use(postRouter)
 app.use(authRouter)
 app.use(navigationRouter)
 
+app.use(productRouterAdmin)
 app.use(orderRouterAdmin)

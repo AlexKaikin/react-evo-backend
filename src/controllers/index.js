@@ -5,3 +5,4 @@ export * as NavigationController from './NavigationController.js'
 export * as OrderController from './user/OrderController.js'
 
 export * as AdminOrderController from './admin/OrderController.js'
+export * as AdminProductController from './admin/ProductController.js'
