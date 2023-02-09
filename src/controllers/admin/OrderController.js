@@ -77,6 +77,7 @@ export const update = async (req, res) => {
         home: req.body.home,
         index: req.body.index,
         cartItems: req.body.cartItems,
+        status: req.body.status,
         updated: new Date().toLocaleString(),
       }
     )
