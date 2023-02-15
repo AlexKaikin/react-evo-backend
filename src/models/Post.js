@@ -2,8 +2,7 @@ import mongoose from 'mongoose'
 
 const PostSchema = new mongoose.Schema(
   {
-    // создать схему таблицы
-    idByTime: { type: Number },
+    id: { type: Number },
     title: { type: String, required: true },
     text: { type: String, required: true },
     tags: { type: Array, default: [] }, // если нет тегов сохраним пустой массив

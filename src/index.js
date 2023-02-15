@@ -15,6 +15,8 @@ import authRouter from './routes/auth.js'
 import navigationRouter from './routes/navigation.js'
 import orderRouterAdmin from './routes/admin/orders.js'
 import productRouterAdmin from './routes/admin/products.js'
+import reviewRouter from './routes/review.js'
+import reviewRouterAdmin from './routes/admin/review.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -67,10 +69,12 @@ app.listen(process.env.PORT || 4444, (err) => {
 
 app.use(serverRouter)
 app.use(productRouter)
+app.use(reviewRouter)
 app.use(orderRouter)
 app.use(postRouter)
 app.use(authRouter)
 app.use(navigationRouter)
 
 app.use(productRouterAdmin)
+app.use(reviewRouterAdmin)
 app.use(orderRouterAdmin)

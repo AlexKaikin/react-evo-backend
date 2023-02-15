@@ -5,8 +5,8 @@ import checkAuth from '../../utils/checkAuth.js'
 
 const orderRouter = Router()
 
-orderRouter.get('/orders', checkAuth, OrderController.getAll)
 orderRouter.get('/orders/:id', checkAuth, OrderController.getOne)
+orderRouter.get('/orders', checkAuth, OrderController.getAll)
 orderRouter.post('/orders', checkAuth, orderCreateValidation, OrderController.create)
 orderRouter.delete('/orders/:id', checkAuth, OrderController.remove)
 orderRouter.patch(

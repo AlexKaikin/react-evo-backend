@@ -5,7 +5,11 @@ export const getAll = async (req, res) => {
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
   try {
-    const orderAll = await OrderModel.find()
+    let orderAll = null
+    let orderQuery = null
+
+    orderAll = await OrderModel.find()
+    orderQuery = await OrderModel.find()
       .limit(_limit)
       .skip(_limit * (_page - 1))
       .populate('user')
@@ -13,7 +17,7 @@ export const getAll = async (req, res) => {
 
     res.append('x-total-count', orderAll.length)
     res.append('Access-Control-Expose-Headers', 'X-Total-Count')
-    res.json(orderAll)
+    res.json(orderQuery)
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить заказы' })
