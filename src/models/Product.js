@@ -5,7 +5,7 @@ const ProductSchema = new mongoose.Schema(
     id: { type: Number },
     title: { type: String, required: true },
     text: { type: String, required: true },
-    tags: { type: Array, default: [] }, // если нет тегов сохраним пустой массив
+    tags: { type: Array, default: [] },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
     currency: { type: String, required: true },
@@ -20,8 +20,8 @@ const ProductSchema = new mongoose.Schema(
     published: { type: Boolean, default: false },
     created: { type: String },
     updated: {type: String},
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // ссылать на модель user по id (связь между таблицами)
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   }
 )
 
-export default mongoose.model('Product', ProductSchema) // возможность экспортировать бд
+export default mongoose.model('Product', ProductSchema)

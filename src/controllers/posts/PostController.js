@@ -1,10 +1,62 @@
 import PostModel from '../../models/Post.js'
 
 export const getAll = async (req, res) => {
+  const q = req.query.q ? req.query.q : null
+  const category = req.query.category ? req.query.category : null
+  const _sort = req.query._sort ? req.query._sort : null
+  const _order = req.query._order ? req.query._order : null
+  const _limit = req.query._limit ? parseInt(req.query._limit) : 0
+  const _page = req.query._page ? parseInt(req.query._page) : 1
+
   try {
-    const posts = await PostModel.find().populate('user').exec()
-    res.append('X-Total-Count', posts.length)
-    res.json(posts)
+    let postAll = null
+    let postQuery = null
+
+    if (category) {
+      postAll = await PostModel.find({
+        category,
+        published: true,
+      })
+      postQuery = await PostModel.find({
+        category,
+        published: true,
+      })
+        .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
+        .limit(_limit)
+        .skip(_limit * (_page - 1))
+        .populate('user')
+        .exec()
+    } else if (q) {
+      postAll = await PostModel.find({
+        title: new RegExp(q, 'i'),
+        published: true,
+      })
+      postQuery = await PostModel.find({
+        title: new RegExp(q, 'i'),
+        published: true,
+      })
+        .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
+        .limit(_limit)
+        .skip(_limit * (_page - 1))
+        .populate('user')
+        .exec()
+    } else {
+      postAll = await PostModel.find({
+        published: true,
+      })
+      postQuery = await PostModel.find({
+        published: true,
+      })
+        .sort({ [_sort]: _order === 'desc' ? -1 : 1 })
+        .limit(_limit)
+        .skip(_limit * (_page - 1))
+        .populate('user')
+        .exec()
+    }
+    res.append('x-total-count', postAll.length)
+    res.append('Access-Control-Expose-Headers', 'X-Total-Count')
+    res.json(postQuery)
+    
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить статьи' })
@@ -13,9 +65,9 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
   try {
-    const postId = req.params.id
-    PostModel.findByIdAndUpdate(
-      { _id: postId },
+    const postId = parseInt(req.params.id)
+    PostModel.findOneAndUpdate(
+      { id: postId },
       { $inc: { viewsCount: 1 } },
       { returnDocument: 'after' },
       (err, doc) => {
@@ -38,10 +90,14 @@ export const getOne = async (req, res) => {
 export const create = async (req, res) => {
   try {
     const doc = new PostModel({
+      id: +new Date().getTime(),
       title: req.body.title,
+      category: req.body.category,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
       tags: req.body.tags,
+      published: req.body.published,
+      created: new Date().toLocaleString(),
       user: req.userId,
     })
 
@@ -55,14 +111,16 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const postId = req.params.id
     await PostModel.updateOne(
-      { _id: postId },
+      { id: req.body.id },
       {
         title: req.body.title,
+        category: req.body.category,
         text: req.body.text,
         imageUrl: req.body.imageUrl,
         tags: req.body.tags,
+        published: req.body.published,
+        updated: new Date().toLocaleString(),
         user: req.userId,
       }
     )

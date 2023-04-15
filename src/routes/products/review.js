@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { ReviewController } from '../controllers/index.js'
-import checkAuth from '../utils/checkAuth.js'
-import { reviewCreateValidation } from '../validations/validations.js'
+import { ReviewController } from '../../controllers/index.js'
+import checkAuth from '../../utils/checkAuth.js'
+import { reviewCreateValidation } from '../../validations/validations.js'
 
 const reviewRouter = Router()
 

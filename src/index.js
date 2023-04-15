@@ -8,15 +8,18 @@ dotenv.config()
 import { checkAuth } from './utils/index.js'
 import { getFileStream, s3Storage } from './s3Storage.js'
 import serverRouter from './routes/servers.js'
-import productRouter from './routes/user/products.js'
-import postRouter from './routes/user/posts.js'
-import orderRouter from './routes/user/orders.js'
+import {
+  productRouter,
+  reviewRouter,
+  orderRouter,
+} from './routes/products/index.js'
+import postRouter from './routes/posts/posts.js'
 import authRouter from './routes/auth.js'
 import navigationRouter from './routes/navigation.js'
 import orderRouterAdmin from './routes/admin/orders.js'
 import productRouterAdmin from './routes/admin/products.js'
-import reviewRouter from './routes/review.js'
 import reviewRouterAdmin from './routes/admin/review.js'
+import postRouterAdmin from './routes/admin/posts.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -68,13 +71,18 @@ app.listen(process.env.PORT || 4444, (err) => {
 })
 
 app.use(serverRouter)
+
 app.use(productRouter)
 app.use(reviewRouter)
 app.use(orderRouter)
+
 app.use(postRouter)
+
 app.use(authRouter)
+
 app.use(navigationRouter)
 
 app.use(productRouterAdmin)
 app.use(reviewRouterAdmin)
 app.use(orderRouterAdmin)
+app.use(postRouterAdmin)
