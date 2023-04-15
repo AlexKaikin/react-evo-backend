@@ -109,7 +109,7 @@ export const update = async (req, res) => {
         title: req.body.title,
         category: req.body.category,
         text: req.body.text,
-        imageUrl: req.body.imageUrl,
+        imgUrl: req.body.imgUrl,
         tags: req.body.tags,
         published: req.body.published,
         updated: new Date().toLocaleString(),
