@@ -8,7 +8,7 @@ export const getAll = async (req, res) => {
     let orderAll = null
     let orderQuery = null
 
-    orderAll = await OrderModel.find()
+    orderAll = await OrderModel.find({ user: req.userId })
     orderQuery = await OrderModel.find({ user: req.userId })
       .limit(_limit)
       .skip(_limit * (_page - 1))

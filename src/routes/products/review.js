@@ -5,7 +5,7 @@ import { reviewCreateValidation } from '../../validations/validations.js'
 
 const reviewRouter = Router()
 
-reviewRouter.get('/profile/reviews', ReviewController.getAll)
+reviewRouter.get('/profile/reviews', checkAuth, ReviewController.getAll)
 reviewRouter.get('/products/:id/reviews', ReviewController.getAllProduct)
 reviewRouter.get('/reviews/:id', ReviewController.getOne)
 reviewRouter.post(

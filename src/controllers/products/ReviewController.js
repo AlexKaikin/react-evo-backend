@@ -8,9 +8,9 @@ export const getAll = async (req, res) => {
   try {
     let reviewAll = null
     let reviewQuery = null
-
-    reviewAll = await ReviewModel.find()
-    reviewQuery = await ReviewModel.find()
+    
+    reviewAll = await ReviewModel.find({ user: req.userId })
+    reviewQuery = await ReviewModel.find({ user: req.userId })
       .limit(_limit)
       .skip(_limit * (_page - 1))
       .populate('product', 'title id')
