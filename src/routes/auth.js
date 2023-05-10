@@ -18,5 +18,6 @@ authRouter.post(
   UserController.login
 )
 authRouter.get('/auth/me', checkAuth, UserController.getMe)
+authRouter.patch('/auth/user/update', checkAuth, UserController.update)
 
 export default authRouter
