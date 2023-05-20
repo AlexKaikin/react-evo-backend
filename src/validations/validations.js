@@ -26,6 +26,13 @@ export const postCreateValidation = [
   body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ]
 
+export const noteCreateValidation = [
+  body('text', 'Введите текст статьи').isLength({ min: 10 }).isString(),
+  body('tags', 'Неверный формат тегов (перечисление через запятую)')
+    .optional()
+    .isString()
+]
+
 export const productCreateValidation = [
   body('title', 'Введите заголовок товара').isLength({ min: 3 }).isString(),
   body('text', 'Введите описание товара').isLength({ min: 10 }).isString(),

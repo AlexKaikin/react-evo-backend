@@ -20,6 +20,7 @@ import orderRouterAdmin from './routes/admin/orders.js'
 import productRouterAdmin from './routes/admin/products.js'
 import reviewRouterAdmin from './routes/admin/review.js'
 import postRouterAdmin from './routes/admin/posts.js'
+import noteRouter from './routes/notes/notes.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -77,6 +78,8 @@ app.use(reviewRouter)
 app.use(orderRouter)
 
 app.use(postRouter)
+
+app.use(noteRouter)
 
 app.use(authRouter)
 
