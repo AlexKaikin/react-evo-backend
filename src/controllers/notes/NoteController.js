@@ -5,8 +5,10 @@ export const getAll = async (req, res) => {
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
   try {
-    console.log(req.userId)
-    const noteAll = await NoteModel.find({ user: req.userId })
+    let noteAll = await NoteModel.find({ user: req.userId })
+    let noteQuery = null
+
+    noteQuery = await NoteModel.find({ user: req.userId })
       .sort({ id: -1 })
       .limit(_limit)
       .skip(_limit * (_page - 1))
@@ -15,7 +17,7 @@ export const getAll = async (req, res) => {
 
     res.append('x-total-count', noteAll.length)
     res.append('Access-Control-Expose-Headers', 'X-Total-Count')
-    res.json(noteAll)
+    res.json(noteQuery)
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить заметки' })
@@ -86,7 +88,7 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const noteId = req.params.id
-    NoteModel.findOneAndDelete({ _id: noteId }, (err, doc) => {
+    NoteModel.findOneAndDelete({ id: noteId }, (err, doc) => {
       if (err) {
         console.log(err)
         res.status(500).json({ message: 'Не удалось удалить заметку' })
