@@ -27,7 +27,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const userId = parseInt(req.params.id)
-    UserModel.findOneAndUpdate({ id: userId }, (err, doc) => {
+    UserModel.findOne({ id: userId }, (err, doc) => {
       if (err) {
         console.log(err)
         return res
@@ -35,7 +35,7 @@ export const getOne = async (req, res) => {
           .json({ message: 'Не удалось получить пользователя' })
       }
       if (!doc) {
-        return res.status(404).json({ message: 'Пользователь не найдена' })
+        return res.status(404).json({ message: 'Пользователь не найден' })
       }
       res.json(doc)
     })
