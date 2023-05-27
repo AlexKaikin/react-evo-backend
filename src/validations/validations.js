@@ -33,6 +33,10 @@ export const noteCreateValidation = [
     .isString()
 ]
 
+export const groupCreateValidation = [
+  body('title', 'Введите название группы').isLength({ min: 10 }).isString(),
+]
+
 export const productCreateValidation = [
   body('title', 'Введите заголовок товара').isLength({ min: 3 }).isString(),
   body('text', 'Введите описание товара').isLength({ min: 10 }).isString(),

@@ -12,6 +12,6 @@ export default (req, res, next) => {
       return res.status(403).json({ message: 'Нет доступа' })
     }
   } else {
-    return res.status(403).json({ message: 'Нет доступа' })
+    return res.status(403).json({ message: 'Пользователь не авторизован' })
   }
 }

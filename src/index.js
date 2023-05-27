@@ -22,6 +22,7 @@ import reviewRouterAdmin from './routes/admin/review.js'
 import postRouterAdmin from './routes/admin/posts.js'
 import noteRouter from './routes/notes/notes.js'
 import userRouter from './routes/notes/users.js'
+import groupRouter from './routes/notes/groups.js'
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -82,6 +83,7 @@ app.use(postRouter)
 
 app.use(userRouter)
 app.use(noteRouter)
+app.use(groupRouter)
 
 app.use(authRouter)
 
