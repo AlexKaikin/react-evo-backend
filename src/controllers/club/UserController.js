@@ -3,18 +3,23 @@ import UserModel from '../../models/User.js'
 
 export const getAll = async (req, res) => {
   const user_id = req.userId
+  const q = req.query.q ? req.query.q : null
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
+  function getFilter() {
+    const filter = {}
+    filter._id = { $ne: mongoose.Types.ObjectId(user_id) }
+    if(q) filter.fullName = new RegExp(q, 'i')
+
+    return filter
+  }
+
   try {
-    let usersAll = await UserModel.find({
-      _id: { $ne: mongoose.Types.ObjectId(user_id) },
-    })
+    let usersAll = await UserModel.find(getFilter())
     let usersQuery = null
 
-    usersQuery = await UserModel.find({
-      _id: { $ne: mongoose.Types.ObjectId(user_id) },
-    })
+    usersQuery = await UserModel.find(getFilter())
       .sort({ id: -1 })
       .limit(_limit)
       .skip(_limit * (_page - 1))
