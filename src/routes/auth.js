@@ -19,5 +19,6 @@ authRouter.post(
 )
 authRouter.get('/auth/me', checkAuth, UserController.getMe)
 authRouter.patch('/auth/user/update', checkAuth, UserController.update)
+authRouter.delete('/auth/user/delete', checkAuth, UserController.remove)
 
 export default authRouter

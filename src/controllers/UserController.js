@@ -104,3 +104,22 @@ export const update = async (req, res) => {
     res.status(500).json({ message: 'Не удалось обновить пользователя' })
   }
 }
+
+export const remove = async (req, res) => {
+  try {
+    UserModel.findOneAndDelete({ _id: req.userId }, (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res
+          .status(500)
+          .json({ message: 'Не удалось удалить пользователя' })
+      }
+      if (!doc)
+        return res.status(404).json({ message: 'Пользователь не найден' })
+      return res.json({ success: true })
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Не удалось удалить пользователя' })
+  }
+}

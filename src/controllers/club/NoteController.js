@@ -84,7 +84,7 @@ export const create = async (req, res) => {
       galleryUrl: req.body.galleryUrl,
       published: req.body.published,
       created: new Date().getTime(),
-      user: req.userId,
+      user: req.body.creator,
     })
 
     const note = await doc.save()
