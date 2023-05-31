@@ -1,14 +1,22 @@
 import GroupModel from '../../models/Group.js'
 
 export const getAll = async (req, res) => {
+  const q = req.query.q ? req.query.q : null
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
+  function getFilter() {
+    const filter = {}
+    if (q) filter.title = new RegExp(q, 'i')
+
+    return filter
+  }
+
   try {
-    let groupAll = await GroupModel.find()
+    let groupAll = await GroupModel.find(getFilter())
     let groupQuery = null
 
-    groupQuery = await GroupModel.find()
+    groupQuery = await GroupModel.find(getFilter())
       .sort({ id: -1 })
       .limit(_limit)
       .skip(_limit * (_page - 1))
@@ -49,6 +57,7 @@ export const create = async (req, res) => {
       id: +new Date().getTime(),
       title: req.body.title,
       about: req.body.about,
+      location: req.body.location,
       avatarUrl: req.body.avatarUrl,
       subscribers: [],
       private: req.body.private,
@@ -60,7 +69,7 @@ export const create = async (req, res) => {
     res.json(group)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ message: 'Не удалось создать заметку' })
+    res.status(500).json({ message: 'Не удалось создать группу' })
   }
 }
 
@@ -71,6 +80,7 @@ export const update = async (req, res) => {
       {
         title: req.body.title,
         about: req.body.about,
+        location: req.body.location,
         avatarUrl: req.body.avatarUrl,
         private: req.body.private,
         updated: new Date().toLocaleString(),

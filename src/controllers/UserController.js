@@ -96,6 +96,9 @@ export const update = async (req, res) => {
       { _id: req.userId },
       {
         avatarUrl: req.body.avatarUrl,
+        about: req.body.about,
+        location: req.body.location,
+        private: req.body.private,
       }
     )
     res.json({ success: true })
