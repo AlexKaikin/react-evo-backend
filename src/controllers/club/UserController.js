@@ -55,3 +55,47 @@ export const getOne = async (req, res) => {
     res.status(500).json({ message: 'Не удалось получить пользователя' })
   }
 }
+
+export const followUser = async (req, res) => {
+  const user_id = req.userId
+  const followUser_id = req.params._id
+
+  try {
+    await UserModel.updateOne(
+      { _id: user_id },
+      { $push: { subscriptionsUser: mongoose.Types.ObjectId(followUser_id) } }
+    )
+
+    await UserModel.updateOne(
+      { _id: mongoose.Types.ObjectId(followUser_id) },
+      { $push: { subscribers: mongoose.Types.ObjectId(user_id) } }
+    )
+
+    res.json({ success: true, user_id: user_id })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Не удалось подписаться' })
+  }
+}
+
+export const unFollowUser = async (req, res) => {
+  const user_id = req.userId
+  const unFollowUser_id = req.params._id
+
+  try {
+    await UserModel.updateOne(
+      { _id: user_id },
+      { $pull: { subscriptionsUser: mongoose.Types.ObjectId(unFollowUser_id) } }
+    )
+
+    await UserModel.updateOne(
+      { _id: mongoose.Types.ObjectId(unFollowUser_id) },
+      { $pull: { subscribers: mongoose.Types.ObjectId(user_id) } }
+    )
+
+    res.json({ success: true, user_id: user_id })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Не удалось отписаться' })
+  }
+}

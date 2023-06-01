@@ -7,7 +7,6 @@ const GroupSchema = new mongoose.Schema({
   location: { type: String },
   avatarUrl: { type: String, default: '' },
   subscribers: { type: [mongoose.Schema.Types.ObjectId], ref: 'User' },
-  subscriptions: { type: [mongoose.Schema.Types.ObjectId], ref: 'User' },
   private: { type: Boolean, default: false },
   created: { type: String },
   creator: {
