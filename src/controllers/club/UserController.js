@@ -50,6 +50,9 @@ export const getOne = async (req, res) => {
       }
       res.json(doc)
     })
+      .populate('subscribers', 'id fullName avatarUrl')
+      .populate('subscriptionsUser', 'id fullName avatarUrl')
+      .populate('subscriptionsGroup', 'id title avatarUrl')
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить пользователя' })

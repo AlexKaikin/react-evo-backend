@@ -20,5 +20,12 @@ groupRouter.patch(
   groupCreateValidation,
   GroupController.update
 )
+groupRouter.patch('/groups/follow/:_id', checkAuth, GroupController.followGroup)
+groupRouter.patch(
+  '/groups/unfollow/:_id',
+  checkAuth,
+  GroupController.unFollowGroup
+)
+
 
 export default groupRouter

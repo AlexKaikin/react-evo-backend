@@ -74,6 +74,10 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = await UserModel.findById(req.userId)
+      .populate('subscribers', 'id fullName avatarUrl')
+      .populate('subscriptionsUser', 'id fullName avatarUrl')
+      .populate('subscriptionsGroup', 'id title avatarUrl')
+      
     if (!user) {
       return res.status(404).json({ message: 'Пользователь не найден' })
     }

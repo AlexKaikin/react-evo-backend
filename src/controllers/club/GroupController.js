@@ -1,4 +1,6 @@
+import mongoose from 'mongoose'
 import GroupModel from '../../models/Group.js'
+import UserModel from '../../models/User.js'
 
 export const getAll = async (req, res) => {
   const q = req.query.q ? req.query.q : null
@@ -45,6 +47,8 @@ export const getOne = async (req, res) => {
       }
       res.json(doc)
     })
+      .populate('subscribers', 'id fullName avatarUrl')
+
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить группу' })
@@ -109,5 +113,49 @@ export const remove = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось удалить группу' })
+  }
+}
+
+export const followGroup = async (req, res) => {
+  const user_id = req.userId
+  const followGroup_id = req.params._id
+
+  try {
+    await UserModel.updateOne(
+      { _id: user_id },
+      { $push: { subscriptionsGroup: mongoose.Types.ObjectId(followGroup_id) } }
+    )
+
+    await GroupModel.updateOne(
+      { _id: mongoose.Types.ObjectId(followGroup_id) },
+      { $push: { subscribers: mongoose.Types.ObjectId(user_id) } }
+    )
+
+    res.json({ success: true, user_id: user_id })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Не удалось подписаться' })
+  }
+}
+
+export const unFollowGroup = async (req, res) => {
+  const user_id = req.userId
+  const unFollowGroup_id = req.params._id
+
+  try {
+    await UserModel.updateOne(
+      { _id: user_id },
+      { $pull: { subscriptionsGroup: mongoose.Types.ObjectId(unFollowGroup_id) } }
+    )
+
+    await GroupModel.updateOne(
+      { _id: mongoose.Types.ObjectId(unFollowGroup_id) },
+      { $pull: { subscribers: mongoose.Types.ObjectId(user_id) } }
+    )
+
+    res.json({ success: true, user_id: user_id })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Не удалось отписаться' })
   }
 }
