@@ -23,6 +23,10 @@ import postRouterAdmin from './routes/admin/posts.js'
 import noteRouter from './routes/notes/notes.js'
 import userRouter from './routes/notes/users.js'
 import groupRouter from './routes/notes/groups.js'
+import http from 'http'
+import { Server } from 'socket.io'
+
+
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -33,6 +37,22 @@ mongoose
   .catch((err) => console.log('DB error', err))
 
 export const app = express()
+const server = http.Server(app)
+const socketIO = new Server(server, {cors: {origin: 'http://localhost:3000'}})
+
+socketIO.on('connection', (socket) => {
+  console.log(socket.id + ' user connected')
+
+  socket.on('message', (data) => {
+    socketIO.emit('response', data)
+    //console.log(data)
+  })
+
+  socketIO.on('disconnect', () => {
+    console.log(socket.id + ' user disconnected')
+  })
+})
+
 app.use(cors())
 app.use(express.json()) // чтение json данных
 app.set('json spaces', 2)
@@ -68,7 +88,7 @@ app.post('/upload', checkAuth, upload.single('image'), async (req, res) => {
 
 app.use('/uploads', express.static('uploads')) // по запросу на адрес проверить есть ли файл
 
-app.listen(process.env.PORT || 4444, (err) => {
+server.listen(process.env.PORT || 4444, (err) => {
   if (err) console.warn(err)
   console.log('Server started...')
 })
