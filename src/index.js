@@ -38,7 +38,9 @@ mongoose
 
 export const app = express()
 const server = http.Server(app)
-const socketIO = new Server(server, {cors: {origin: 'http://localhost:3000'}})
+const socketIO = new Server(server, {
+  cors: { origin: process.env.FRONTEND_URL },
+})
 
 socketIO.on('connection', (socket) => {
   console.log(socket.id + ' user connected')
