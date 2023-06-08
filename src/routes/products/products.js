@@ -5,17 +5,17 @@ import { productCreateValidation } from '../../validations/validations.js'
 
 const productRouter = Router()
 
-productRouter.get('/products', ProductController.getAll)
-productRouter.get('/products/:id', ProductController.getOne)
+productRouter.get('/api/products', ProductController.getAll)
+productRouter.get('/api/products/:id', ProductController.getOne)
 productRouter.post(
-  '/products',
+  '/api/products',
   checkAuth,
   productCreateValidation,
   ProductController.create
 )
-productRouter.delete('/products/:id', checkAuth, ProductController.remove)
+productRouter.delete('/api/products/:id', checkAuth, ProductController.remove)
 productRouter.patch(
-  '/products/:id',
+  '/api/products/:id',
   checkAuth,
   productCreateValidation,
   ProductController.update

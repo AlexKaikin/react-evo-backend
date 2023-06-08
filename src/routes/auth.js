@@ -6,19 +6,19 @@ import { loginValidation, registerValidation } from '../validations/validations.
 const authRouter = Router()
 
 authRouter.post(
-  '/auth/register',
+  '/api/auth/register',
   registerValidation,
   handleValidationErrors,
   UserController.register
 )
 authRouter.post(
-  '/auth/login',
+  '/api/auth/login',
   loginValidation,
   handleValidationErrors,
   UserController.login
 )
-authRouter.get('/auth/me', checkAuth, UserController.getMe)
-authRouter.patch('/auth/user/update', checkAuth, UserController.update)
-authRouter.delete('/auth/user/delete', checkAuth, UserController.remove)
+authRouter.get('/api/auth/me', checkAuth, UserController.getMe)
+authRouter.patch('/api/auth/user/update', checkAuth, UserController.update)
+authRouter.delete('/api/auth/user/delete', checkAuth, UserController.remove)
 
 export default authRouter

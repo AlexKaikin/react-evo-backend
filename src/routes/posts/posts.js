@@ -5,17 +5,17 @@ import { postCreateValidation } from '../../validations/validations.js'
 
 const postRouter = Router()
 
-postRouter.get('/posts', PostController.getAll)
-postRouter.get('/posts/:id', PostController.getOne)
+postRouter.get('/api/posts', PostController.getAll)
+postRouter.get('/api/posts/:id', PostController.getOne)
 postRouter.post(
-  '/posts',
+  '/api/posts',
   checkAuth,
   postCreateValidation,
   PostController.create
 )
-postRouter.delete('/posts/:id', checkAuth, PostController.remove)
+postRouter.delete('/api/posts/:id', checkAuth, PostController.remove)
 postRouter.patch(
-  '/posts/:id',
+  '/api/posts/:id',
   checkAuth,
   postCreateValidation,
   PostController.update

@@ -5,18 +5,18 @@ import { reviewCreateValidation } from '../../validations/validations.js'
 
 const reviewRouter = Router()
 
-reviewRouter.get('/profile/reviews', checkAuth, ReviewController.getAll)
-reviewRouter.get('/products/:id/reviews', ReviewController.getAllProduct)
-reviewRouter.get('/reviews/:id', ReviewController.getOne)
+reviewRouter.get('/api/profile/reviews', checkAuth, ReviewController.getAll)
+reviewRouter.get('/api/products/:id/reviews', ReviewController.getAllProduct)
+reviewRouter.get('/api/reviews/:id', ReviewController.getOne)
 reviewRouter.post(
-  '/reviews',
+  '/api/reviews',
   checkAuth,
   reviewCreateValidation,
   ReviewController.create
 )
-reviewRouter.delete('/reviews/:id', checkAuth, ReviewController.remove)
+reviewRouter.delete('/api/reviews/:id', checkAuth, ReviewController.remove)
 reviewRouter.patch(
-  '/reviews/:id',
+  '/api/reviews/:id',
   checkAuth,
   reviewCreateValidation,
   ReviewController.update

@@ -5,21 +5,21 @@ import { productCreateValidation } from '../../validations/validations.js'
 
 const productRouterAdmin = Router()
 
-productRouterAdmin.get('/admin/products', AdminProductController.getAll)
-productRouterAdmin.get('/admin/products/:id', AdminProductController.getOne)
+productRouterAdmin.get('/api/admin/products', AdminProductController.getAll)
+productRouterAdmin.get('/api/admin/products/:id', AdminProductController.getOne)
 productRouterAdmin.post(
-  '/admin/products',
+  '/api/admin/products',
   checkAuth,
   productCreateValidation,
   AdminProductController.create
 )
 productRouterAdmin.delete(
-  '/admin/products/:id',
+  '/api/admin/products/:id',
   checkAuth,
   AdminProductController.remove
 )
 productRouterAdmin.patch(
-  '/admin/products/:id',
+  '/api/admin/products/:id',
   checkAuth,
   productCreateValidation,
   AdminProductController.update

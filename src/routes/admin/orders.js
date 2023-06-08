@@ -5,17 +5,17 @@ import checkAuth from '../../utils/checkAuth.js'
 
 const orderRouterAdmin = Router()
 
-orderRouterAdmin.get('/admin/orders', checkAuth, AdminOrderController.getAll)
-orderRouterAdmin.get('/admin/orders/:id', checkAuth, AdminOrderController.getOne)
+orderRouterAdmin.get('/api/admin/orders', checkAuth, AdminOrderController.getAll)
+orderRouterAdmin.get('/api/admin/orders/:id', checkAuth, AdminOrderController.getOne)
 orderRouterAdmin.post(
-  '/admin/orders',
+  '/api/admin/orders',
   checkAuth,
   orderCreateValidation,
   AdminOrderController.create
 )
-orderRouterAdmin.delete('/admin/orders/:id', checkAuth, AdminOrderController.remove)
+orderRouterAdmin.delete('/api/admin/orders/:id', checkAuth, AdminOrderController.remove)
 orderRouterAdmin.patch(
-  '/admin/orders/:id',
+  '/api/admin/orders/:id',
   checkAuth,
   orderCreateValidation,
   AdminOrderController.update

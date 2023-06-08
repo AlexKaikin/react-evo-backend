@@ -5,24 +5,24 @@ import { groupCreateValidation } from '../../validations/validations.js'
 
 const groupRouter = Router()
 
-groupRouter.get('/groups/', checkAuth, GroupController.getAll)
-groupRouter.get('/groups/:id', checkAuth, GroupController.getOne)
+groupRouter.get('/api/groups/', checkAuth, GroupController.getAll)
+groupRouter.get('/api/groups/:id', checkAuth, GroupController.getOne)
 groupRouter.post(
-  '/groups',
+  '/api/groups',
   checkAuth,
   groupCreateValidation,
   GroupController.create
 )
-groupRouter.delete('/groups/:id', checkAuth, GroupController.remove)
+groupRouter.delete('/api/groups/:id', checkAuth, GroupController.remove)
 groupRouter.patch(
-  '/groups/:id',
+  '/api/groups/:id',
   checkAuth,
   groupCreateValidation,
   GroupController.update
 )
-groupRouter.patch('/groups/follow/:_id', checkAuth, GroupController.followGroup)
+groupRouter.patch('/api/groups/follow/:_id', checkAuth, GroupController.followGroup)
 groupRouter.patch(
-  '/groups/unfollow/:_id',
+  '/api/groups/unfollow/:_id',
   checkAuth,
   GroupController.unFollowGroup
 )
