@@ -15,4 +15,4 @@
 </ul>
 
 <h3>DEMO</h3>
-<a href="https://react-evo-alexkaikin.vercel.app" target="_blank">https://react-evo-alexkaikin.vercel.app</a>
+<a href="https://evo-place.ru" target="_blank">https://evo-place.ru</a>
