@@ -1,4 +1,4 @@
-import ProductModel from '../../models/Product.js'
+import ProductModel from '../../models/products/Product.js'
 
 export const getAll = async (req, res) => {
   const q = req.query.q ? req.query.q : null
@@ -16,7 +16,7 @@ export const getAll = async (req, res) => {
   function getParams() {
     const filter = {}
     filter.published = true
-    filter.quantity = { $gte: 1}
+    filter.quantity = { $gte: 1 }
     filter.price = { $gte: priceFrom, $lte: priceTo }
 
     if (q) filter.title = new RegExp(q, 'i')

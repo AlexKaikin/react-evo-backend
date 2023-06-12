@@ -20,11 +20,13 @@ import orderRouterAdmin from './routes/admin/orders.js'
 import productRouterAdmin from './routes/admin/products.js'
 import reviewRouterAdmin from './routes/admin/review.js'
 import postRouterAdmin from './routes/admin/posts.js'
-import noteRouter from './routes/notes/notes.js'
-import userRouter from './routes/notes/users.js'
-import groupRouter from './routes/notes/groups.js'
+import noteRouter from './routes/club/notes.js'
+import userRouter from './routes/club/users.js'
+import groupRouter from './routes/club/groups.js'
 import http from 'http'
 import { Server } from 'socket.io'
+import messageRouter from './routes/club/messages.js'
+import roomRouter from './routes/club/rooms.js'
 
 
 
@@ -43,15 +45,8 @@ const socketIO = new Server(server, {
 })
 
 socketIO.on('connection', (socket) => {
-  console.log(socket.id + ' user connected')
-
   socket.on('message', (data) => {
-    socketIO.emit('response', data)
-    //console.log(data)
-  })
-
-  socketIO.on('disconnect', () => {
-    console.log(socket.id + ' user disconnected')
+    socketIO.emit(data.roomID, data)
   })
 })
 
@@ -107,6 +102,8 @@ app.use(postRouter)
 app.use(userRouter)
 app.use(noteRouter)
 app.use(groupRouter)
+app.use(messageRouter)
+app.use(roomRouter)
 
 app.use(authRouter)
 

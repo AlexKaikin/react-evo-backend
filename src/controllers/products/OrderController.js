@@ -1,4 +1,4 @@
-import OrderModel from '../../models/Order.js'
+import OrderModel from '../../models/products/Order.js'
 
 export const getAll = async (req, res) => {
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
