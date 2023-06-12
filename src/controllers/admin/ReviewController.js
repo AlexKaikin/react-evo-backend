@@ -1,5 +1,5 @@
-import ReviewModel from '../../models/Review.js'
-import ProductModel from '../../models/Product.js'
+import ProductModel from '../../models/products/Product.js'
+import ReviewModel from '../../models/products/Review.js'
 
 export const getAll = async (req, res) => {
   const _limit = req.query._limit ? parseInt(req.query._limit) : 8

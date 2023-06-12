@@ -7,6 +7,8 @@ export * as OrderController from './products/OrderController.js'
 export * as NoteController from './club/NoteController.js'
 export * as UsersController from './club/UserController.js'
 export * as GroupController from './club/GroupController.js'
+export * as MessageController from './club/MessageController.js'
+export * as RoomController from './club/RoomController.js'
 
 export * as AdminOrderController from './admin/OrderController.js'
 export * as AdminProductController from './admin/ProductController.js'

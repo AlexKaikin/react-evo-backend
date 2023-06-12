@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import NoteModel from '../../models/Note.js'
+import NoteModel from '../../models/club/Note.js'
 
 export const getAll = async (req, res) => {
   const userId = req.params.userId

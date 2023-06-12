@@ -37,8 +37,8 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
   try {
-    const userId = parseInt(req.params.id)
-    UserModel.findOne({ id: userId }, (err, doc) => {
+    const user_id = req.params.id
+    UserModel.findOne({ _id: user_id }, (err, doc) => {
       if (err) {
         console.log(err)
         return res

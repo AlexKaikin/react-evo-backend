@@ -1,4 +1,4 @@
-import PostModel from '../../models/Post.js'
+import PostModel from '../../models/posts/Post.js'
 
 export const getAll = async (req, res) => {
   const q = req.query.q ? req.query.q : null
@@ -56,7 +56,6 @@ export const getAll = async (req, res) => {
     res.append('x-total-count', postAll.length)
     res.append('Access-Control-Expose-Headers', 'X-Total-Count')
     res.json(postQuery)
-    
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить статьи' })

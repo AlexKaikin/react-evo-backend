@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import GroupModel from '../../models/Group.js'
+import GroupModel from '../../models/club/Group.js'
 import UserModel from '../../models/User.js'
 
 export const getAll = async (req, res) => {
