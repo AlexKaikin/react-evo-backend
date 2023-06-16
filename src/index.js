@@ -27,6 +27,7 @@ import http from 'http'
 import { Server } from 'socket.io'
 import messageRouter from './routes/club/messages.js'
 import roomRouter from './routes/club/rooms.js'
+import eventRouter from './routes/club/events.js'
 
 
 
@@ -104,6 +105,7 @@ app.use(noteRouter)
 app.use(groupRouter)
 app.use(messageRouter)
 app.use(roomRouter)
+app.use(eventRouter)
 
 app.use(authRouter)
 

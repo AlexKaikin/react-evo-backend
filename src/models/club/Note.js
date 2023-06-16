@@ -7,7 +7,8 @@ const NoteSchema = new mongoose.Schema({
   galleryUrl: { type: Array, default: [] },
   published: { type: Boolean, default: true },
   created: { type: String },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  group: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
 })
 
 export default mongoose.model('Note', NoteSchema)

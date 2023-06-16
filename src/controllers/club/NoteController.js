@@ -2,21 +2,28 @@ import mongoose from 'mongoose'
 import NoteModel from '../../models/club/Note.js'
 
 export const getAll = async (req, res) => {
-  const userId = req.params.userId
+  const _id = req.params.userId
+  const by = req.query.by
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
   const _page = req.query._page ? parseInt(req.query._page) : 1
 
+  function getPopulateParams() {
+    return by === 'user' ? 'fullName avatarUrl' : 'title avatarUrl'
+  }
+
+  function getParams(){
+    return by === 'user' ? { user: _id } : { group: _id }
+  }
+
   try {
-    let noteAll = await NoteModel.find({
-      user: mongoose.Types.ObjectId(userId),
-    })
+    let noteAll = await NoteModel.find(getParams())
     let noteQuery = null
 
-    noteQuery = await NoteModel.find({ user: mongoose.Types.ObjectId(userId) })
+    noteQuery = await NoteModel.find(getParams())
       .sort({ id: -1 })
       .limit(_limit)
       .skip(_limit * (_page - 1))
-      .populate('user', 'fullName avatarUrl')
+      .populate(by, getPopulateParams())
       .exec()
 
     res.append('x-total-count', noteAll.length)
@@ -56,19 +63,16 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const noteId = parseInt(req.params.noteId)
-    NoteModel.findOneAndUpdate(
-      { id: noteId },
-      (err, doc) => {
-        if (err) {
-          console.log(err)
-          return res.status(500).json({ message: 'Не удалось получить заметку' })
-        }
-        if (!doc) {
-          return res.status(404).json({ message: 'Заметка не найдена' })
-        }
-        res.json(doc)
+    NoteModel.findOneAndUpdate({ id: noteId }, (err, doc) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).json({ message: 'Не удалось получить заметку' })
       }
-    )
+      if (!doc) {
+        return res.status(404).json({ message: 'Заметка не найдена' })
+      }
+      res.json(doc)
+    })
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Не удалось получить заметку' })
@@ -84,7 +88,8 @@ export const create = async (req, res) => {
       galleryUrl: req.body.galleryUrl,
       published: req.body.published,
       created: new Date().getTime(),
-      user: req.body.creator,
+      user: req.body.user,
+      group: req.body.group,
     })
 
     const note = await doc.save()
@@ -104,7 +109,7 @@ export const update = async (req, res) => {
         tags: req.body.tags,
         galleryUrl: req.body.galleryUrl,
         published: req.body.published,
-        updated: new Date().toLocaleString()
+        updated: new Date().toLocaleString(),
       }
     )
     res.json({ success: true })
