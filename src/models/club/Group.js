@@ -4,6 +4,7 @@ const GroupSchema = new mongoose.Schema({
   id: { type: Number },
   title: { type: String, required: true },
   about: { type: String, required: true },
+  interests: { type: Array, default: [] },
   location: { type: String },
   avatarUrl: { type: String, default: '' },
   subscribers: { type: [mongoose.Schema.Types.ObjectId], ref: 'User' },

@@ -36,8 +36,8 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
   try {
-    const groupId = parseInt(req.params.id)
-    GroupModel.findOne({ id: groupId }, (err, doc) => {
+    const group_id = req.params.id
+    GroupModel.findOne({ _id: group_id }, (err, doc) => {
       if (err) {
         console.log(err)
         return res.status(500).json({ message: 'Не удалось получить группу' })
@@ -46,8 +46,7 @@ export const getOne = async (req, res) => {
         return res.status(404).json({ message: 'Группа не найдена' })
       }
       res.json(doc)
-    })
-      .populate('subscribers', 'id fullName avatarUrl')
+    }).populate('subscribers', 'id fullName avatarUrl')
 
   } catch (err) {
     console.log(err)
@@ -63,6 +62,7 @@ export const create = async (req, res) => {
       about: req.body.about,
       location: req.body.location,
       avatarUrl: req.body.avatarUrl,
+      interests: req.body.interests,
       subscribers: [],
       private: req.body.private,
       created: new Date().getTime(),
@@ -86,6 +86,7 @@ export const update = async (req, res) => {
         about: req.body.about,
         location: req.body.location,
         avatarUrl: req.body.avatarUrl,
+        interests: req.body.interests,
         private: req.body.private,
         updated: new Date().toLocaleString(),
       }

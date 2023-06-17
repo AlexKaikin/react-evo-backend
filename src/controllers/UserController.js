@@ -105,6 +105,7 @@ export const update = async (req, res) => {
       {
         avatarUrl: req.body.avatarUrl,
         about: req.body.about,
+        interests: req.body.interests,
         location: req.body.location,
         private: req.body.private,
       }

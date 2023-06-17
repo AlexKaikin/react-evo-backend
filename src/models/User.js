@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   location: { type: String, default: '' },
   private: { type: Boolean, default: false },
   avatarUrl: { type: String, default: '' },
+  interests: { type: Array, default: [] },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   role: { type: String, default: 'user' },
