@@ -29,6 +29,8 @@ import messageRouter from './routes/club/messages.js'
 import roomRouter from './routes/club/rooms.js'
 import eventRouter from './routes/club/events.js'
 import recommendationRouter from './routes/club/recommendations.js'
+import commentRouter from './routes/posts/comment.js'
+import commentRouterAdmin from './routes/admin/comments.js'
 
 
 
@@ -100,6 +102,7 @@ app.use(reviewRouter)
 app.use(orderRouter)
 
 app.use(postRouter)
+app.use(commentRouter)
 
 app.use(userRouter)
 app.use(noteRouter)
@@ -117,3 +120,4 @@ app.use(productRouterAdmin)
 app.use(reviewRouterAdmin)
 app.use(orderRouterAdmin)
 app.use(postRouterAdmin)
+app.use(commentRouterAdmin)

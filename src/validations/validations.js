@@ -58,3 +58,7 @@ export const orderCreateValidation = [
 export const reviewCreateValidation = [
   body('body', 'Напишите отзыв').isLength({ min: 3 }).isString(),
 ]
+
+export const commentCreateValidation = [
+  body('body', 'Напишите комментарий').isLength({ min: 3 }).isString(),
+]
