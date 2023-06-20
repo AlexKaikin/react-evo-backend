@@ -95,45 +95,52 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    
     await ReviewModel.updateOne(
       { id: req.body.id },
       {
         rating: req.body.rating,
-        body: req.body.body,
+        body: req.body.text,
         published: req.body.published,
         updated: new Date().toLocaleString(),
         product: req.body.product,
-        user: req.body.user,
+        user: req.userId,
       }
     )
 
-    if (req.body.published === 'Одобрен') {
-      if (req.body.rating !== 0) {
-        const reviewObj = await ReviewModel.find({
-          product: req.body.product,
-          published: 'Одобрен',
-        })
-        const rewiewArr = reviewObj.map((item) => item.rating)
+    const reviewsByProduct = await ReviewModel.find({
+      $and: [{ product: req.body.product }, { published: 'Одобрен' }],
+    })
+
+    await ProductModel.updateOne(
+      { _id: req.body.product },
+      {
+        $set: {
+          rating: getRating(),
+          ratingCount: getRatingCount(),
+        },
+      }
+    )
+
+    function getRating() {
+      if (reviewsByProduct.length) {
+        const rewiewArr = reviewsByProduct.map((item) => item.rating)
         const rewiewArrNeed = rewiewArr.filter((item) => item !== 0)
         const ratingSum = rewiewArrNeed.reduce((a, b) => a + b)
-        const ratingNumber = Math.ceil(ratingSum / rewiewArrNeed.length)
 
-        ProductModel.findOneAndUpdate(
-          { _id: req.body.product },
-          { $set: { rating: ratingNumber } },
-          (err, doc) => {
-            if (err) {
-              console.log(err)
-              return res
-                .status(500)
-                .json({ message: 'Не удалось получить товар' })
-            }
-            if (!doc)
-              return res.status(404).json({ message: 'Товар не найден' })
-          }
-        )
+        return Math.ceil(ratingSum / rewiewArrNeed.length)
+      } else{
+        return 0
       }
     }
+
+    function getRatingCount() {
+      const ratingsByProduct = reviewsByProduct.map((item) => item.rating)
+      const rewiewArrNeed = ratingsByProduct.filter((item) => item !== 0)
+
+      return rewiewArrNeed.length
+    }
+
     res.json({ success: true })
   } catch (err) {
     console.log(err)
