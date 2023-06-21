@@ -106,9 +106,10 @@ export const create = async (req, res) => {
       category: req.body.category,
       volume: req.body.volume,
       volumeMeasurement: req.body.volumeMeasurement,
+      manufacturer: req.body.manufacturer,
       property: req.body.property,
       published: req.body.published,
-      created: new Date().toLocaleString(),
+      created: new Date().getTime(),
       user: req.userId,
     })
 
@@ -137,9 +138,10 @@ export const update = async (req, res) => {
         category: req.body.category,
         volume: req.body.volume,
         volumeMeasurement: req.body.volumeMeasurement,
+        manufacturer: req.body.manufacturer,
         property: req.body.property,
         published: req.body.published,
-        updated: new Date().toLocaleString(),
+        updated: new Date().getTime(),
         user: req.userId,
       }
     )

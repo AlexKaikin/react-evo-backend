@@ -15,6 +15,7 @@ const ProductSchema = new mongoose.Schema({
   rating: { type: Number, default: 0 },
   ratingCount: { type: Number, default: 0 },
   category: { type: String, required: true },
+  manufacturer: { type: String, required: true },
   property: { country: String, town: String, year: Number },
   viewsCount: { type: Number, default: 0 },
   published: { type: Boolean, default: false },

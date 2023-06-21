@@ -80,7 +80,7 @@ export const create = async (req, res) => {
       id: +new Date().getTime(),
       rating: req.body.rating,
       body: req.body.body,
-      created: new Date().toLocaleString(),
+      created: new Date().getTime(),
       product: req.body.product,
       user: req.userId,
     })
@@ -102,7 +102,7 @@ export const update = async (req, res) => {
         rating: req.body.rating,
         body: req.body.text,
         published: req.body.published,
-        updated: new Date().toLocaleString(),
+        updated: new Date().getTime(),
         product: req.body.product,
         user: req.userId,
       }
