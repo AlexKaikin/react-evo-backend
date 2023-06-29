@@ -8,6 +8,10 @@ export const getAll = async (req, res) => {
   const priceFrom = req.query.price_gte ? req.query.price_gte : 1
   const priceTo = req.query.price_lte ? req.query.price_lte : 10000000
 
+  const ratings = req.query.ratings ? req.query.ratings.split(',') : null
+
+  const manufacturer = req.query.manufacturer ? req.query.manufacturer : null
+
   const _sort = req.query._sort ? req.query._sort : null
   const _order = req.query._order ? req.query._order : null
   const _limit = req.query._limit ? parseInt(req.query._limit) : 0
@@ -21,6 +25,8 @@ export const getAll = async (req, res) => {
 
     if (q) filter.title = new RegExp(q, 'i')
     if (category) filter.category = category
+    if (ratings) filter.rating = { $in: ratings }
+    if (manufacturer) filter.manufacturer = new RegExp(manufacturer, 'i')
 
     return filter
   }
